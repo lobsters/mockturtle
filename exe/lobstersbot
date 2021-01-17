@@ -1,0 +1,12 @@
+#!/usr/local/bin/ruby -w
+
+require 'lobstersbot'
+
+class Bot < Summer::Connection
+  include Lobstersbot::PluggableConnection
+  
+  include Lobstersbot::Tell
+  include Lobstersbot::Rss
+end
+
+Bot.new("irc.freenode.net")
