@@ -27,6 +27,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   
+  spec.add_development_dependency "rubocop", "~> 1.8"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.1.0"
+
   spec.add_runtime_dependency 'summer', '~> 1.0'
   spec.add_runtime_dependency 'timers', '~> 4.1'
   spec.add_runtime_dependency 'rss', '~> 0.2.9'
