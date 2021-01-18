@@ -7,6 +7,7 @@ class Bot < Summer::Connection
 
   include Lobstersbot::Tell
   include Lobstersbot::Rss
+  include Lobstersbot::Salute
 end
 
 Bot.new("irc.freenode.net")

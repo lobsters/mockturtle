@@ -11,6 +11,7 @@ require 'lobstersbot/pluggable_connection'
 
 require 'lobstersbot/plugins/tell'
 require 'lobstersbot/plugins/rss'
+require 'lobstersbot/plugins/salute'
 
 module Lobstersbot
   class Error < StandardError; end
