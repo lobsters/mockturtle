@@ -1,6 +1,6 @@
 module Lobstersbot
   module Tell
-    def on_tell(memory, nick, message, response)
+    def on_tell(memory, channel, nick, message)
       parsed = message.match(/(?<target>[^\s]+)\s(?<message>.+)/)
       return unless parsed
 
@@ -8,7 +8,7 @@ module Lobstersbot
       memory[target] ||= []
       memory[target] << "#{nick}: #{parsed[:message]}"
 
-      response.call("I'll pass that along when #{target} is around.")
+      respond(channel, nick, "I'll pass that along when #{target} is around.")
     end
 
     def seen_tell(memory, nick, response)
