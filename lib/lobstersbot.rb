@@ -7,6 +7,7 @@ require 'timers'
 
 require 'lobstersbot/version'
 require 'lobstersbot/rss_reader'
+require 'lobstersbot/summer_patches'
 require 'lobstersbot/pluggable_connection'
 
 require 'lobstersbot/plugins/tell'

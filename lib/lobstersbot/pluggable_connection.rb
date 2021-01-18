@@ -29,14 +29,6 @@ module Lobstersbot
       privmsg("#{nick}: #{msg}", channel)
     end
 
-    def config_dir(file)
-      File.join(ARGV[0], file)
-    end
-
-    def load_config
-      @config = HashWithIndifferentAccess.new(YAML.load_file(config_dir('lobstersbot.yml')))
-    end
-
     def did_start_up
       pp ARGV
       @timers = Timers::Group.new

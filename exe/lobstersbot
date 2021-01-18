@@ -3,6 +3,7 @@
 require 'lobstersbot'
 
 class Bot < Summer::Connection
+  include Lobstersbot::SummerPatches
   include Lobstersbot::PluggableConnection
 
   include Lobstersbot::Tell
