@@ -1,5 +1,30 @@
 module Lobstersbot
   module PluggableConnection
+    @@triggers = [
+      # The default command handler.
+      [
+        0,
+        /\A\.(?<command>[a-z]+)\s(?<message>.+)\z/i,
+        lambda do |bot, channel, nick, match|
+          bot.evaluate(:"on_#{match[:command]}", channel, nick, match[:message])
+        end,
+      ],
+    ]
+
+    def self.triggers
+      @@triggers
+    end
+
+    def self.included(mod)
+      mod.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def add_trigger(priority, regex, handler)
+        PluggableConnection.triggers << [priority, regex, handler]
+      end
+    end
+
     def config_dir(file)
       File.join(ARGV[0], file)
     end
@@ -13,16 +38,23 @@ module Lobstersbot
       @timers = Timers::Group.new
       @memory = PStore.new(config_dir('memory.pstore'), true)
 
+      # Sort the triggers by priority.
+      @@triggers.sort! {|a, b| b[0] <=> a[0] }
+
       @timers.every(60) { evaluate(:frequently) }
       Thread.new { loop { @timers.wait } }
     end
 
     def channel_message(sender, channel, message)
-      request = message.match(/\A\.(?<command>[a-z]+)\s(?<message>.+)\z/i)
-      return unless request
-      response_proc = ->(msg) { privmsg("#{sender[:nick]}: #{msg}", channel) }
+      match = nil
 
-      evaluate(:"on_#{request[:command]}", sender[:nick], request[:message], response_proc)
+      _, _, handler = @@triggers.find do |trigger|
+        match = message.match(trigger[1])
+        !match.nil?
+      end
+      return unless match
+
+      handler.call(self, channel, sender[:nick], match)
     end
 
     def join_event(sender, channel)
