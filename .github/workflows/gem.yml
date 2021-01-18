@@ -1,0 +1,37 @@
+---
+name: Gem
+on: push
+
+jobs:
+  rspec:
+    name: Rspec
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Run Suite
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rspec
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Run Rubocop
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rubocop          
