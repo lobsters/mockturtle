@@ -25,6 +25,10 @@ module Lobstersbot
       end
     end
 
+    def respond(channel, nick, msg)
+      privmsg("#{nick}: #{msg}", channel)
+    end
+
     def config_dir(file)
       File.join(ARGV[0], file)
     end
