@@ -36,8 +36,8 @@ RSpec.describe Lobstersbot::PluggableConnection do
         privmsg.call(msg, to)
       end
 
-      klass.define_method(:on_command) do |_memory, nick, message, response|
-        response.call("#{nick} #{message}")
+      klass.define_method(:on_command) do |_memory, channel, nick, message|
+        respond(channel, nick, "#{nick} #{message}")
       end
 
       expect(privmsg).to receive(:call).with('Sample: Sample sample', 'sample')
