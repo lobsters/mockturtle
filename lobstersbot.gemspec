@@ -33,4 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'summer', '~> 1.0'
   spec.add_runtime_dependency 'timers', '~> 4.1'
   spec.add_runtime_dependency 'rss', '~> 0.2.9'
+
+  # URL fetching dependencies
+  spec.add_runtime_dependency 'wikipedia-client', '~> 1.10.0'
 end
