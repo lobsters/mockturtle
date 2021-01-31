@@ -1,3 +1,5 @@
+require 'openssl'
+
 module Lobstersbot
   module SummerPatches
     def config_dir(file)
@@ -15,7 +17,7 @@ module Lobstersbot
         cert_file = File.read(config_dir('client.pem'))
         context = OpenSSL::SSL::SSLContext.new
         context.key = OpenSSL::PKey.read(cert_file)
-        context.crt = OpenSSL::X509::Certificate.new(cert_file)
+        context.cert = OpenSSL::X509::Certificate.new(cert_file)
 
         @connection = OpenSSL::SSL::SSLSocket.new(@connection, context).connect
       end
