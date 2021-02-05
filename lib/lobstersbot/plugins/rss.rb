@@ -5,7 +5,10 @@ module Lobstersbot
       reader = RssReader.new('https://lobste.rs/newest.rss')
     )
       reader.call(memory[:last_run]).each do |story|
-        @config[:channels].each {|c| privmsg(story, c) }
+        @config[:channels].each do |channel|
+          privmsg(story, channel)
+          sleep 10
+        end
       end
       memory[:last_run] = Time.now.to_i
     end
