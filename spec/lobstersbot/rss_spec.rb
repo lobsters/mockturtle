@@ -12,7 +12,7 @@ RSpec.describe Lobstersbot::Rss do
 
     def privmsg(msg, to); end
 
-    allow(response).to receive(:call).with(nil).and_return(['test'])
+    allow(response).to receive(:call).with(0).and_return(['test'])
 
     frequently_post_stories(memory, response)
 
