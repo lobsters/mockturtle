@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-rspec", "~> 2.1.0"
 
   spec.add_runtime_dependency 'summer', '~> 1.0'
-  spec.add_runtime_dependency 'timers', '~> 4.1'
+  spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
   spec.add_runtime_dependency 'rss', '~> 0.2.9'
 end

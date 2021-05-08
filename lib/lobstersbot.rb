@@ -3,7 +3,7 @@ require 'pstore'
 
 require 'rss'
 require 'summer'
-require 'timers'
+require 'concurrent'
 
 require 'lobstersbot/version'
 require 'lobstersbot/rss_reader'

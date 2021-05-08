@@ -30,15 +30,13 @@ module Lobstersbot
     end
 
     def did_start_up
-      pp ARGV
-      @timers = Timers::Group.new
       @memory = PStore.new(config_dir('memory.pstore'), true)
 
       # Sort the triggers by priority.
       @@triggers.sort! {|a, b| b[0] <=> a[0] }
 
-      @timers.every(60) { evaluate(:frequently) }
-      Thread.new { loop { @timers.wait } }
+      timer = Concurrent::TimerTask.new(execution_interval: 1) { evaluate(:frequently) }
+      timer.execute
     end
 
     def channel_message(sender, channel, message)
@@ -65,7 +63,7 @@ module Lobstersbot
         slice_name = match.to_s.sub("#{group}_", '').to_sym
         @memory.transaction do
           slice = @memory[slice_name] ||= {}
-          method(match).call(slice, *args)
+          self.send(match, slice, *args)
         end
       end
     end

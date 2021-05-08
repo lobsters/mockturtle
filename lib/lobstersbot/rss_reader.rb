@@ -4,7 +4,7 @@ require 'rss'
 module Lobstersbot
   class RssReader
     FORMAT = '%s %s (%s) - %s'.freeze
-    USERNAME_REGXP = /\((?<username>.+)\)/i # rubocop:disable Style/MutableConstant
+    USERNAME_REGXP = /\((?<username>.+)\)/i # rubocop:disable Style/MutableConstant, Lint/RedundantCopDisableDirective
 
     def initialize(endpoint, open_proc = URI.method(:open))
       @endpoint = endpoint
