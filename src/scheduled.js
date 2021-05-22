@@ -6,11 +6,11 @@ const readLobstersRss = (event) => {
   const fun = async () => {
     const parser = new Parser();
     const newest = await parser.parseURL('https://lobste.rs/newest.rss');
-    let lastSeen = new Date();
+    let lastSeen = new Date(0);
     
     try {
       const rawDate = await event.database.get('rss/lobsters');
-      let lastSeen = new Date(rawDate);
+      lastSeen = new Date(rawDate);
     } catch (e) {
       if(e.notFound) {
         // do nothing
@@ -18,7 +18,7 @@ const readLobstersRss = (event) => {
         event.logger.error(e);
       }
     }
-    
+
     newest.items.forEach(item => {
       const { groups: { username } } = /\((?<username>.+)\)/i.exec(item.author);
       const publishedAt = new Date(item.isoDate);
@@ -27,7 +27,7 @@ const readLobstersRss = (event) => {
         lastSeen = publishedAt;
         
         event.logger.info('Broadcasting story.', {itemDate: item.isoDate, itemGuid: item.guid, lastSeen});
-        event.reply(`${item.title} [${item.categories.join(' ')}] ${username} ${item.guid}`);
+        event.reply(`${item.title} [${item.categories.join(' ')}] (${username}) ${item.guid}`);
       }
     });
     
