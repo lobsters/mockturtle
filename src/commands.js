@@ -5,8 +5,10 @@ const autoTitle = (event) => {
     const { groups: { url } } = autoTitle.__match__.exec(event.message);
     const title = await event.fetchTitle(url);
     
-    if (title)
-      event.reply(title);
+    if (title) {
+      const domain = new URL(url).host;
+      event.reply(`[ ${title} ] - ${domain}`);
+    }
     
     return true;
   }
