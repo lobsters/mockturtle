@@ -68,9 +68,11 @@ client.on('registered', (event) => {
 });
 
 client.on('join', (event) => {
-  event.logger.info("Activating scheduled tasks.")
+  event.logger.info("Activating scheduled tasks.");
   event.reply = (message) => client.channel(event.channel).say(message);
-  timers[event.channel] = scheduled.map(fn => setInterval(fn, fn.__interval__, event));
+  
+  if(timers[event.channel] === undefined)
+    timers[event.channel] = scheduled.map(fn => setInterval(fn, fn.__interval__, event));
 });
 
 client.on('leave', (event) => {
