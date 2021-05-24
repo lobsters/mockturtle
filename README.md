@@ -1,6 +1,12 @@
 # mockturtle.js
 
-NodeJS based IRC bot.
+The NodeJS based IRC bot which runs in (`#lobsters`)[https://lobste.rs/chat]. 
+
+## Running
+
+```sh
+$ node src/index.js 'irc://username:password@example.com:6697/#channel1,##channel2`
+```
 
 ## License
 
