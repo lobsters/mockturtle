@@ -15,12 +15,22 @@ const config = new URL(process.argv.pop());
 const client = new IRC.Client();
 const storage = level('storage.leveldb');
 
+const maxTitleSize = 200;
+
 var timers = {};
+
+const truncate = (inputStr, len) => {
+  shortenedStr = inputStr.slice(0, len);
+  if (shortenedStr.length < inputStr.length) {
+    shortenedStr += "…";
+  }
+  return shortenedStr;
+}
 
 const fetchTitle = async (targetUrl) => {
   const { body: html, url } = await got(targetUrl);
-  const { title } = await metascraper({ html, url });  
-  return title;
+  const { title } = await metascraper({ html, url });
+  return truncate(title, maxTitleSize);
 };
 
 const injectLoggerMiddleware = (baseLogger) => {
