@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { createLogger, format, transports } = require('winston');
+const { createLogger, format, transports } = require('winston')
 
 const logger = createLogger({
   level: 'debug',
@@ -16,6 +16,6 @@ const logger = createLogger({
     new transports.Console(),
     new transports.File({ filename: '/var/log/mockturtle.log' })
   ]
-});
+})
 
-module.exports = logger;
+module.exports = logger

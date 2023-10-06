@@ -2,6 +2,19 @@
 
 The NodeJS based IRC bot which runs in [`#lobsters`](https://lobste.rs/chat). 
 
+## Dev
+
+```sh
+$ yarn install
+```
+
+## Test
+
+```sh
+$ yarn standard --fix
+$ yarn ospec
+```
+
 ## Running
 
 ```sh
