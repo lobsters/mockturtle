@@ -22,6 +22,7 @@ const readGitHubRss = (event) => {
         if (e.notFound) {
           // first run, save date rather than print all commits
           await event.database.put(key, (new Date()).toISOString())
+          continue
         } else {
           event.logger.error(e)
         }
@@ -83,7 +84,7 @@ const readLobstersRss = (event) => {
 
   return fun()
 }
-readLobstersRss.__interval__ = 300000 // ms
+readLobstersRss.__interval__ = 5000 // ms
 
 module.exports = [
   readGitHubRss,
