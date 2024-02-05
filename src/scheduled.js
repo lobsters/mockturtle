@@ -83,7 +83,7 @@ const readLobstersRss = (event) => {
 
   return fun()
 }
-readLobstersRss.__interval__ = 5000 // ms
+readLobstersRss.__interval__ = 300000 // ms
 
 module.exports = [
   readGitHubRss,
