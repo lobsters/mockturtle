@@ -36,7 +36,7 @@ const readGitHubRss = (event) => {
           lastSeen = publishedAt
 
           event.logger.info('Broadcasting story.', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
-          event.reply(`${key} commit: ${item.title.trim()} (by ${item.author}) ${item.link}`)
+          event.reply(`${repo} commit: ${item.title.trim()} (by ${item.author}) ${item.link}`)
         }
       })
 
