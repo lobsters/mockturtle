@@ -70,7 +70,7 @@ const readLobstersRss = (event) => {
     }
 
     newest.items.reverse().forEach(item => {
-      const { groups: { username } } = /\((?<username>.+)\)/i.exec(item.author)
+      const { groups: { username } } = /(?<attribution>via|by) (?<username>.+)/i.exec(item.author)
       const publishedAt = new Date(item.isoDate)
 
       if (publishedAt > lastSeen) {
