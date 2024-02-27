@@ -7,7 +7,7 @@ const readGitHubRss = (event) => {
     const feeds = {
       lobsters: 'https://github.com/lobsters/lobsters/commits/master.atom',
       lobstersAnsible: 'https://github.com/lobsters/lobsters-ansible/commits/master.atom',
-      mockturtle: 'https://github.com/lobsters/mockturtle/commits/master.atom'
+      mockturtle: 'https://github.com/lobsters/mockturtle/commits/develop.atom'
     }
 
     for (const [repo, feed] of Object.entries(feeds)) {
