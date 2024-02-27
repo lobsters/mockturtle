@@ -31,12 +31,15 @@ const readGitHubRss = (event) => {
       const newest = await parser.parseURL(feed)
       newest.items.reverse().forEach(item => {
         const publishedAt = new Date(item.isoDate)
+        // commits are 40 characters, the cli's default short id of 7 is plenty
+        // ex: https://github.com/lobsters/lobsters/commit/d9aba71aa3408939daf812adac73f9d13c9ef6c8
+        const link = item.link.substring(0, item.link.length - 33)
 
         if (publishedAt > lastSeen) {
           lastSeen = publishedAt
 
           event.logger.info('Broadcasting story.', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
-          event.reply(`${repo} commit: ${item.title.trim()} (by ${item.author}) ${item.link}`)
+          event.reply(`${repo} commit: ${item.title.trim()} (by ${item.author}) ${link}`)
         }
       })
 
