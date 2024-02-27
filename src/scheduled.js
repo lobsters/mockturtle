@@ -38,7 +38,7 @@ const readGitHubRss = (event) => {
         if (publishedAt > lastSeen) {
           lastSeen = publishedAt
 
-          event.logger.info('Broadcasting story.', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
+          event.logger.info('Broadcasting commit', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
           event.reply(`${repo} commit: ${item.title.trim()} (by ${item.author}) ${link}`)
         }
       })
@@ -76,7 +76,7 @@ const readLobstersRss = (event) => {
       if (publishedAt > lastSeen) {
         lastSeen = publishedAt
 
-        event.logger.info('Broadcasting story.', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
+        event.logger.info('Broadcasting story', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
         event.reply(`${item.title} [${item.categories.join(' ')}] (${username}) ${item.guid}`)
       }
     })
