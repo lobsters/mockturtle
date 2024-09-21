@@ -78,6 +78,13 @@ client.on('registered', (event) => {
     .forEach(channel => channel.join())
 })
 
+client.on('close', async (event) => {
+  logger.info('Connection closed')
+
+  await storage.close()
+  process.exit()
+})
+
 client.on('join', (event) => {
   event.logger.info('Activating scheduled tasks.')
   event.reply = (message) => client.channel(event.channel).say(message)
@@ -88,8 +95,23 @@ client.on('join', (event) => {
 })
 
 client.on('leave', (event) => {
-  event.logger.info('Deactivating scheduled tasks.')
-  timers[event.channel].map(timer => clearImmediate(timer))
+  event.logger.info('Deactivating scheduled tasks.', {action: 'leave'})
+  timers[event.channel].map(timer => clearInterval(timer))
+  delete timers[event.channel]
+})
+
+client.on('kick', (event) => {
+  event.logger.info('Deactivating scheduled tasks.', {action: 'kick'})
+  timers[event.channel].map(timer => clearInterval(timer))
+  delete timers[event.channel]
+})
+
+client.on('socket close', (event) => {
+  logger.debug('Pausing scheduled tasks')
+  Object.entries(timers).map(([channel, intervals]) => {
+    intervals.map(interval => clearInterval(interval))
+    delete timers[channel]
+  })
 })
 
 client.connect({
