@@ -22,6 +22,7 @@ const youtubeDomains = [
   'm.youtube.com',
   'youtu.be',
   'youtube-nocookie.com',
+  'music.youtube.com',
 ]
 
 const timers = {}
