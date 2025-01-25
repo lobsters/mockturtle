@@ -16,6 +16,13 @@ const client = new IRC.Client()
 const storage = level('storage.leveldb')
 
 const maxTitleSize = 200
+const youtubeDomains = [
+  'youtube.com',
+  'www.youtube.com',
+  'm.youtube.com',
+  'youtu.be',
+  'youtube-nocookie.com',
+]
 
 const timers = {}
 
@@ -29,9 +36,24 @@ const truncate = (inputStr, len) => {
 }
 
 const fetchTitle = async (targetUrl) => {
-  const { body: html, url } = await got(targetUrl)
-  const { title } = await metascraper({ html, url })
-  return truncate(title, maxTitleSize)
+  const targetHost = new URL(targetUrl).host
+  if (youtubeDomains.includes(targetHost)) {
+    const oembedUrl = new URL('https://www.youtube.com/oembed')
+    oembedUrl.searchParams.set('url', targetUrl)
+
+    const { data } = await got(oembedUrl).json()
+    const video_title = truncate(data.title ?? 'No Title', maxTitleSize)
+    const video_author = data.author_name ?? 'No Author'
+    const video_provider = data.provider_name ?? 'Youtube'
+
+    const title = `${video_title} - by ${video_author} - ${video_provider}`
+    return title
+  }
+  else {
+    const { body: html, url } = await got(targetUrl)
+    const { title } = await metascraper({ html, url })
+    return truncate(title, maxTitleSize)
+  }
 }
 
 const injectLoggerMiddleware = (baseLogger) => {
