@@ -44,9 +44,8 @@ const fetchTitle = async (targetUrl) => {
     const { data } = await got(oembedUrl).json()
     const video_title = truncate(data.title ?? 'No Title', maxTitleSize)
     const video_author = data.author_name ?? 'No Author'
-    const video_provider = data.provider_name ?? 'Youtube'
 
-    const title = `${video_title} - by ${video_author} - ${video_provider}`
+    const title = `${video_title} - by ${video_author}`
     return title
   }
   else {
