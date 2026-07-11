@@ -17,6 +17,39 @@ const autoTitle = (event) => {
 }
 autoTitle.__match__ = /.*(?<url>https?:\/\/\S+).*/g
 
+const autoInviteInfo = (event) => {
+  const fun = async () => {
+    try {
+      const lastJoined = await event.database.get(`lastJoined/${event.target}/${event.nick}`);
+
+      if (Date.now() - Date.parse(lastJoined) < 600000) {
+        event.reply(`Looking for an invitation ${event.nick}? ` +
+          "https://lobste.rs/about#invitations " +
+          "has an intro, and " +
+          "https://lobste.rs/chat " +
+          "explains some expectations for this channel. " +
+          "(I am the channel bot.)"
+        )
+      }
+    } catch(e) {
+      if (e.notFound) {
+        /* bot missed a channel join, default to now, then re-trigger */
+        try {
+          await event.database.put(`lastJoined/${event.channel}/${event.nick}`, new Date().toString())
+          autoInviteInfo(event);
+        } catch (e) {
+          event.logger.error(e)
+        }
+      } else {
+        event.logger.error(e)
+      }
+    }
+  }
+
+  fun()
+}
+autoInviteInfo.__match__ = /.*invit(e|ation)s?.*/gm
+
 const help = (event) => {
   const { groups: { query } } = help.__match__.exec(event.message)
 
@@ -146,6 +179,7 @@ watch.__match__ = /^.+/g
 
 module.exports = [
   autoTitle,
+  autoInviteInfo,
   help,
   peek,
   salute,
