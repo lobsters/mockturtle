@@ -1,3 +1,5 @@
+2026-11-24: Archiving this repo. I [merged its history into lobsters/lobsters](https://github.com/lobsters/lobsters/commit/0ebeed00d783717f28dc3c6e825bbc3d4a38910b) and future development will happen there.
+
 # mockturtle.js
 
 The NodeJS based IRC bot which runs in [`#lobsters`](https://lobste.rs/chat). 
